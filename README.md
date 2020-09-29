@@ -1,8 +1,8 @@
 # 【Doc】
-## 开发环境 npm run pre
-## 生产环境 npm run prd
-## 测试打包 npm run buildpre
-## 正式打包 npm run buildprd
+* 开发环境 npm run pre
+* 生产环境 npm run prd
+* 测试打包 npm run buildpre
+* 正式打包 npm run buildprd
 
 # 【文档角色】
 ## admin  管理员
