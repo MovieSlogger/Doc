@@ -6,7 +6,7 @@ import "lib-flexible"
 import { getItem } from "./assets/js/appUtils.js"
 import { initialize } from "./assets/js/appBuild.js"
 
-router.beforeEach((to, from, next) => {  
+router.beforeEach((to, from, next) => {
   const token = getItem("token");
   const expired = getItem("expired");
 
@@ -39,6 +39,14 @@ router.beforeEach((to, from, next) => {
       }
     }
   });
+})
+
+router.afterEach((to) => {
+  if (to.name == "Login") {
+    store.commit("setStateHeader", false);
+  } else {
+    store.commit("setStateHeader", true);
+  }
 })
 
 createApp(App).use(store).use(router).mount("#app")

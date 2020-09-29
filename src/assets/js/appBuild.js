@@ -8,12 +8,12 @@ export function initialize(token, expired) { /* @@ 验证用户权限 */
         method: "POST",
         url: "/api/member/verify",
         params: {
-          token: 'token',
-          expired: 'expired'
+          token: token,
+          expired: expired
         }
       })
       .then((res) => {
-        if (res.status) {
+        if (res.code == 200) {
           store.commit("setStateLogin", true);
           store.commit("setStateRole", res.data.role);
         } else {

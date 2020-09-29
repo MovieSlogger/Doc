@@ -2,6 +2,7 @@ import { createStore } from "vuex"
 
 export default createStore({
   state: {
+    stateHeader: false, // 是否需要头部左侧框架
     stateLogin: false,
     stateRole: 2, // 0 管理员; 1 维护者; 2 使用者;
     stateCurrent: { /* @@ 页面对应权限 */
@@ -11,6 +12,9 @@ export default createStore({
     }
   },
   getters: {
+    getStateHeader(state) {
+      return state.stateHeader;
+    },
     getStateLogin(state) {
       return state.stateLogin;
     },
@@ -22,6 +26,9 @@ export default createStore({
     }
   },
   mutations: {
+    setStateHeader(state, stateHeader) {
+      state.stateHeader = stateHeader;
+    },
     setStateLogin(state, stateLogin) {
       state.stateLogin = stateLogin;
     },

@@ -1,12 +1,18 @@
 <template>
   <div class="doc">
-    <router-view/>
+    <Frame>
+      <router-view/>
+    </Frame>
   </div>
 </template>
 
 <script>
+import Frame from "./components/Frame.vue"
 export default {
-  name: "App"
+  name: "App",
+  components: {
+    Frame
+  }
 }
 </script>
 

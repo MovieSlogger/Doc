@@ -31,15 +31,17 @@ export function axiosFetch(parm) {
 
     instance.request(config)
     .then((res) => {
-      if (res.status == "200") {
-        ret(res.data);
+      if (res.data.code == 200) {
+        ret(res.data)
       } else {
-        rej(res);
+        ret(res.data.data);
+        toastBox(res.data.message);
       }
       parm.load ? loadedBox(false) : null;
     })
     .catch((err) => {
       rej(err);
+      toastBox(err);
       parm.load ? loadedBox(false) : null;
     })
   })
