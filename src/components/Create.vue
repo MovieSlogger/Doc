@@ -2,7 +2,8 @@
   <div class="create" v-show="status">
     <div class="create-panel">
       <h3>{{ title }}</h3>
-      <div>
+      <img @click="onCancel" src="@/assets/image/cancel.png" alt="">
+      <div class="create-form">
         <div>
           <Upload :width="2.24" :file="uploadFile" @upload-value="onUpload"/>
         </div>
@@ -13,7 +14,7 @@
           <Input :width="2.24" type="text" holder="请输入姓名" :status="nameStatus" :fillin="nameValue" icons="name" warn="请输入姓名" err="请输入合法姓名" @input-value="onName" />
         </div>
         <div>
-          <Input :width="2.24" type="text" holder="请输入用户名" :status="accountStatus" :fillin="accountValue" icons="account" warn="请输入用户名" err="请输入合法用户名" @input-value="onAccount" />
+          <Input :width="2.24" type="text" holder="请输入用户名" :status="accountStatus" :fillin="accountValue" :disable="type == 1" icons="account" warn="请输入用户名" err="请输入合法用户名" @input-value="onAccount" />
         </div>
         <div>
           <Input :width="2.24" type="password" holder="请输入密码" :status="passwordStatus" :fillin="passwordValue" icons="password" warn="请输入密码" err="请输入合法密码" @input-value="onPassword" />
@@ -40,6 +41,8 @@ export default {
     status: Boolean,
     /* 对话框数据 */
     gather: Object,
+    /* 对话框类型 */
+    type: Number,
   },
   components: {
     Upload,
@@ -138,6 +141,9 @@ export default {
         password: this.passwordValue
       };
       this.$emit("create-btn", params);
+    },
+    onCancel() {
+      this.$emit("create-cancle");
     }
   }
 }
@@ -155,8 +161,34 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 2.8rem;
+    border-radius: 0.02rem;
     background-color: #ffffff;
     transform: translate(-50%, -50%);
+    > h3 {
+      position: relative;
+      margin: 0.22rem 0 0 0;
+      font-size: 0.14rem;
+      color: #333333;
+      line-height: 0.14rem;
+      font-weight: normal;
+      text-align: center;
+    }
+    > img {
+      position: absolute;
+      top: 0.18rem;
+      right: 0.12rem;
+      width: 0.18rem;
+      height: 0.18rem;
+    }
+    .create-form {
+      position: relative;
+      margin: 0.16rem 0 0 0.27rem;
+      padding: 0 0 0.24rem 0;
+      > div {
+        margin: 0.08rem 0 0 0;
+      }
+    }
   }
 }
 </style>

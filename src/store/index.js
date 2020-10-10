@@ -6,8 +6,8 @@ export default createStore({
     stateLogin: false,
     stateRole: 2, // 0 管理员; 1 维护者; 2 使用者;
     stateCurrent: { /* @@ 页面对应权限 */
-      0: ["Login", "Admin", "Upkeep", "Reader"],
-      1: ["Login", "Upkeep", "Reader"],
+      0: ["Login", "Admin", "Upkeep", "Reader", "Admin-Member", "Admin-Manage", "Admin-Setting", "Upkeep-Hickey"],
+      1: ["Login", "Upkeep", "Reader", "Upkeep-Hickey"],
       2: ["Login", "Reader"]
     }
   },

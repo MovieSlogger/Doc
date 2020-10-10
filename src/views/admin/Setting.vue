@@ -1,17 +1,17 @@
 <template>
-  <div class="admin">
-    <router-view></router-view>
+  <div class="setting">
+    setting
   </div>
 </template>
 
 <script>
 export default {
-  name: "Admin"
+  name: "Setting"
 }
 </script>
 
 <style lang="less" scoped>
-.admin {
+.setting {
   width: 100%;
   height: 100%;
 }

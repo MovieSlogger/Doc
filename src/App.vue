@@ -49,17 +49,17 @@ input, textarea {
   -webkit-user-select: auto;
   -webkit-appearance: none;
 }
-img{
+img {
   display: block;
 }
-a, u{
+a, u {
   text-decoration: none;
 }
-b, em, i{
+b, em, i {
   font-weight: normal;
   font-style: normal;
 }
-ul li{
+ul li {
   list-style-type: none;
 }
 div, span, img {

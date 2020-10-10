@@ -7,6 +7,7 @@ import { getItem } from "./assets/js/appUtils.js"
 import { initialize } from "./assets/js/appBuild.js"
 
 router.beforeEach((to, from, next) => {
+  console.log(to, from)
   const token = getItem("token");
   const expired = getItem("expired");
 

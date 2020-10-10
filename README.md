@@ -11,8 +11,7 @@
 
 ### 【项目结构】
 ```
-      |
-      |
+
       |                 |-- Button.vue 按钮组件
       |                 |-- Create.vue 新增、编辑会员组件
       |                 |-- Delete.vue 删除会员组件
@@ -26,6 +25,7 @@
       |           |-- Admin.vue  管理员
       |-- views --|-- Upkeep.vue 维护者
       |           |-- Reader.vue 使用者
+
 ```
 
 ### 【rem】

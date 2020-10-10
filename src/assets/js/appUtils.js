@@ -3,6 +3,8 @@
 */
 import axios from "axios"
 import qs from "qs"
+import mitt from 'mitt'
+export const emitter = mitt();
 
 /**
  * axios请求接口
@@ -31,12 +33,7 @@ export function axiosFetch(parm) {
 
     instance.request(config)
     .then((res) => {
-      if (res.data.code == 200) {
-        ret(res.data)
-      } else {
-        ret(res.data.data);
-        toastBox(res.data.message);
-      }
+      ret(res.data);
       parm.load ? loadedBox(false) : null;
     })
     .catch((err) => {
@@ -57,7 +54,7 @@ export function toastBox(text = "网络错误～") {
     let toast = document.createElement("div");
     toast.id = "toast";
     toast.style.position = "fixed";
-    toast.style.top = "50%";
+    toast.style.top = "36%";
     toast.style.left = "50%";
     toast.style.opacity = 0;
     toast.style.padding = "0.07rem 0.14rem";
@@ -151,4 +148,8 @@ export function getItem(key) {
   if (value) {
     return JSON.parse(decodeURIComponent(value));
   }
+}
+
+export function delItem(key) {
+  localStorage.removeItem(key)
 }

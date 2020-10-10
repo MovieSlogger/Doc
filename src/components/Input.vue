@@ -1,12 +1,12 @@
 <template>
   <div class="input" :style="{width: width + 'rem'}">
-    <div :style="{border: border}" class="input-art">
+    <div :style="{border: border, opacity: disable ? 0.68 : 1}" class="input-art">
       <div>
         <img v-if="icons == 'name'" src="@/assets/image/name.png" alt="">
         <img v-if="icons == 'account'" src="@/assets/image/account.png" alt="">
         <img v-if="icons == 'password'" src="@/assets/image/password.png" alt="">
       </div>
-      <input :type="type" v-model="value" :placeholder="holder" @focus="onFocus" @blur="onBlur">
+      <input :type="type" :disabled="disable" v-model="value" :placeholder="holder" @focus="onFocus" @blur="onBlur">
     </div>
     <div v-show="status == 2 || status == 3" class="input-tip">{{ status == 2 ? err : warn }}</div>
   </div>  
@@ -16,28 +16,30 @@
 export default {
   name: "Input",
   props: {
-    /* 表单类型 */
-    type: String,
-    /* 表单占位符 */
-    holder: String,
-    /* 表单状态 0 初始状态 1 验证通过 2 验证失败 3 验证为空 */
-    status: Number,
-    /* 填充值 */
-    fillin: Number,
     /* 按钮宽度 */
     width: Number,
+    /* 表单类型 */
+    type: String,
+    /* 禁用 */
+    disable: Boolean,
     /* 图标 account 账户 */
     icons: String,
+    /* 表单占位符 */
+    holder: String,
     /* 警告 */
     warn: String,
     /* 错误 */
-    err: String
+    err: String,
+    /* 表单状态 0 初始状态 1 验证通过 2 验证失败 3 验证为空 */
+    status: Number,
+    /* 填充值 */
+    fillin: String
   },
   data() {
     return {
       value: null,
       focus: false,
-      border: "1px solid #ebeef5",
+      border: "1px solid #dcdfe6",
       tips: null
     }
   },
@@ -50,14 +52,14 @@ export default {
     focus: {
       handler: function() {
         if (!this.focus) {
-          this.$emit("input-value", this.value);
+          this.$emit("val-value", this.value);
         }
       }
     },
     status: {
       handler: function() {
         if (this.status == 0) {
-          this.border = "1px solid #ebeef5";
+          this.border = "1px solid #dcdfe6";
         } else if (this.status == 1) {
           this.border = "1px solid #409eff";
         } else if (this.status == 2) {
@@ -109,7 +111,7 @@ export default {
       align-items: center;
       width: 0.28rem;
       height: 0.22rem;
-      border-right: 1px solid #ebeef5;
+      border-right: 1px solid #dcdfe6;
       > img {
         width: 0.14rem;
         height: 0.14rem;

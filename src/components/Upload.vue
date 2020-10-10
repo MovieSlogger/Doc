@@ -89,6 +89,7 @@ export default {
     }
     .upload-option {
       position: relative;
+      margin: 0 0 0 0.12rem;
       width: 0.46rem;
       height: 0.46rem;
       background: url("./../assets/image/upload.png") no-repeat;
