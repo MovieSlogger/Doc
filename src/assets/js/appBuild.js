@@ -6,7 +6,7 @@ export function initialize(token, expired) { /* @@ 验证用户权限 */
     if (token && expired) {
       axiosFetch({
         method: "POST",
-        url: "/api/member/verify",
+        url: "/api/signin/verify",
         params: {
           token: token,
           expired: expired

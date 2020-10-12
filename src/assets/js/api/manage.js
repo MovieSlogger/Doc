@@ -1,10 +1,10 @@
-import { axiosFetch } from "./../appUtils.js"
+import { axiosFetch } from "../appUtils.js"
 
-/* 【创建账户】 */
-export function adminCreate(params) {
+/* 【创建模板】 */
+export function manageCreate(params) {
   return axiosFetch({
     method: "POST",
-    url: "/api/member/create",
+    url: "/api/manage/create",
     params: params
   })
   .then((res) => {
@@ -12,11 +12,11 @@ export function adminCreate(params) {
   })
 }
 
-/* 【编辑账户】 */
-export function adminEdit(params) {
+/* 【编辑模板】 */
+export function manageUpdate(params) {
   return axiosFetch({
     method: "POST",
-    url: "/api/member/edit",
+    url: "/api/manage/update",
     params: params
   })
   .then((res) => {
@@ -24,11 +24,11 @@ export function adminEdit(params) {
   })
 }
 
-/* 【删除账户】 */
-export function adminDelete(params) {
+/* 【删除模板】 */
+export function manageDelete(params) {
   return axiosFetch({
     method: "POST",
-    url: "/api/member/delete",
+    url: "/api/manage/delete",
     params: params
   })
   .then((res) => {
@@ -36,11 +36,11 @@ export function adminDelete(params) {
   })
 }
 
-/* 【账户管理】 */
-export function adminManage(params) {
+/* 【模板管理】 */
+export function manageModel(params) {
   return axiosFetch({
     method: "POST",
-    url: "/api/member/manage",
+    url: "/api/manage/manage",
     params: params
   })
   .then((res) => {

@@ -42,7 +42,7 @@ export default {
   methods: {
     onSelect(val) {
       this.selected = val;
-      this.$emit("select-btn", val)
+      this.$emit("select-value", val)
     }
   }
 }

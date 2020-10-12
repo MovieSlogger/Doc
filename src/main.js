@@ -2,7 +2,6 @@ import { createApp } from "vue"
 import App from "./App.vue"
 import router from "./router"
 import store from "./store"
-import "lib-flexible"
 import { getItem } from "./assets/js/appUtils.js"
 import { initialize } from "./assets/js/appBuild.js"
 

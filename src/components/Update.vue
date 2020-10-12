@@ -1,9 +1,9 @@
 <template>
-  <div class="create" v-show="status">
-    <div class="create-panel">
-      <h3>创建用户</h3>
+  <div class="update" v-show="status">
+    <div class="update-panel">
+      <h3>编辑用户</h3>
       <img @click="onCancel" src="@/assets/image/cancel.png" alt="">
-      <div class="create-form">
+      <div class="update-form">
         <div>
           <Upload
             :width="2.24"
@@ -39,6 +39,7 @@
             holder="请输入用户名"
             :status="accountStatus"
             :fillin="accountValue"
+            :disable="true"
             icons="account"
             warn="请输入用户名"
             err="请输入合法用户名"
@@ -62,8 +63,8 @@
             type="primary"
             size="large"
             text="确 定"
-            :status="createStatus"
-            @btn-click="onCreate"
+            :status="updateStatus"
+            @btn-click="onUpdate"
           />
         </div>
       </div>
@@ -77,10 +78,12 @@ import Select from "./Select.vue"
 import Input from "./Input.vue"
 import Button from "./../components/Button.vue"
 export default {
-  name: "Create",
+  name: "Update",
   props: {
     /* 对话框状态 */
-    status: Boolean
+    status: Boolean,
+    /* 对话框数据 */
+    gather: Object
   },
   components: {
     Upload,
@@ -95,7 +98,7 @@ export default {
       nameStatus: 0,
       accountStatus: 0,
       passwordStatus: 0,
-      createStatus: true,
+      updateStatus: true,
       uploadFile: "",
       selectRole: 2,
       nameValue: null,
@@ -104,6 +107,18 @@ export default {
       nameVerify: false,
       accountVerify: false,
       passwordVerify: false
+    }
+  },
+  watch: {
+    gather: {
+      handler: function() {
+        this.memberId = this.gather.id;
+        this.uploadFile = this.gather.avatar;
+        this.selectRole = this.gather.role;
+        this.nameValue = this.gather.name;
+        this.accountValue = this.gather.account;
+        this.passwordValue = "";
+      }
     }
   },
   methods: {
@@ -158,7 +173,7 @@ export default {
         this.passwordVerify = false;
       }
     },
-    onCreate() {
+    onUpdate() {
       this.onName(this.nameValue);
       this.onAccount(this.accountValue);
       this.onPassword(this.passwordValue);
@@ -172,25 +187,25 @@ export default {
           account: this.accountValue,
           password: this.passwordValue
         };
-        this.$emit("create-btn", params);
+        this.$emit("update-btn", params);
       }
     },
     onCancel() {
-      this.$emit("create-cancle");
+      this.$emit("update-cancle");
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.create {
+.update {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   min-height: 100vh;
   background: rgba(0, 0, 0, 0.28);
-  .create-panel {
+  .update-panel {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -214,7 +229,7 @@ export default {
       width: 0.18rem;
       height: 0.18rem;
     }
-    .create-form {
+    .update-form {
       position: relative;
       margin: 0.16rem 0 0 0.27rem;
       padding: 0 0 0.24rem 0;

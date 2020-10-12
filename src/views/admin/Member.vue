@@ -15,21 +15,22 @@
         <template v-for="(item, index) in memberData" :key="index">
           <div>
             <span>{{ item.id }}</span>
-            <span>{{ item.role }}</span>
-            <span>{{ item.avatar }}</span>
+            <span>{{ roleFilter(item.role) }}</span>
+            <img :src="item.avatar" alt="">
             <span>{{ item.name }}</span>
             <span>{{ item.account }}</span>
             <span>******</span>
             <span>
               <Button
                 text="删除"
+                :status="!(item.id == 1)"
                 type="danger"
                 @btn-click="deleteMember(item)"
               />
               <Button
                 text="编辑"
                 type="warning"
-                @btn-click="editMember(item)"
+                @btn-click="updateMember(item)"
               />
               <Button
                 text="新增"
@@ -41,17 +42,34 @@
         </template>
       </div>
     </div>
-    <Create :title="createTitle" :status="createStatus" :gather="createData" :type="manageType" @create-btn="onAccount" @create-cancle="onCancel" />
-    <Delete title="删除账户" article="您确定删除该账户吗？" :status="deleteStatus" :gather="deleteData" @delete-cancel="delCancel" @delete-sure="delSure" />
+    <Create
+      :status="createStatus"
+      @create-btn="createAccount"
+      @create-cancle="createCancel"
+    />
+    <Update
+      :status="updateStatus"
+      :gather="updateData"
+      @update-btn="updateAccount"
+      @update-cancle="updateCancel"
+    />
+    <Delete
+      title="删除账户"
+      article="您确定删除该账户吗？"
+      :status="deleteStatus"
+      :gather="deleteData"
+      @delete-btn="deleteAccount"
+      @delete-cancel="deleteCancel"
+    />
   </div>
 </template>
 
 <script>
-import { getItem } from "@/assets/js/appUtils.js"
-import { toastBox } from "@/assets/js/appUtils.js"
-import { adminManage, adminCreate, adminEdit, adminDelete } from "@/assets/js/api/admin.js"
+import { getItem, toastBox } from "@/assets/js/appUtils.js"
+import { memberManage, memberCreate, memberUpdate, memberDelete } from "@/assets/js/api/member.js"
 import Button from "@/components/Button.vue"
 import Create from "@/components/Create.vue"
+import Update from "@/components/Update.vue"
 import Delete from "@/components/Delete.vue"
 
 export default {
@@ -59,93 +77,93 @@ export default {
   components: {
     Button,
     Create,
+    Update,
     Delete
   },
   data() {
     return {
-      manageType: 0, // 0 新增 1 编辑
       memberData: [],
-      createTitle: "创建用户",
       createStatus: false,
-      createData: {},
+      updateStatus: false,
       deleteStatus: false,
+      updateData: {},
       deleteData: {}
     }
   },
   created() {
-    this.onManage();
+    this.accountManage();
   },
   methods: {
     /* 【账户管理】 */
-    async onManage() {
+    async accountManage() {
       let params = {
         token: getItem("token"),
         expired: getItem("expired")
       };
-      let result =  await adminManage(params);
+      let result =  await memberManage(params);
       this.memberData = result.data;
-      console.log(this.memberData, "@@ memberData")
     },
-    /* 【创建账户 && 编辑账户】 */
-    async onAccount(params) {
-      /* 【创建账户】 */
-      if (this.manageType == 0) {
-        let result =  await adminCreate(params);
-        if (result.status) {
-          this.memberData.push(result.data);
-          this.createStatus = false;
-        }
-        toastBox(result.message);
-      } else {
-      /* 【编辑账户】 */
-        let result =  await adminEdit(params);
-        console.log(result, "@@ result");
-        if (result.status) {
-          this.memberData = this.memberData.filter(item => item.id != this.createData.id);
-          this.memberData.push(result.data)
-          this.createStatus = false;
-        }
-        toastBox(result.message);
+    /* 【创建账户】 */
+    async createAccount(params) {
+      let result =  await memberCreate(params);
+      if (result.status) {
+        this.memberData.push(result.data);
+        this.createStatus = false;
       }
+      toastBox(result.message);
     },
-    onCancel() {
-      this.createStatus = false;
+    /* 【编辑账户】 */
+    async updateAccount(params) {
+      let result =  await memberUpdate(params);
+      if (result.status) {
+        this.memberData = this.memberData.filter(item => item.id != this.updateData.id);
+        this.memberData.push(result.data);
+        this.updateStatus = false;
+      }
+      toastBox(result.message);
     },
-    deleteMember(row) {
-      console.log(row, "deleteMember");
-      this.deleteData = row;
-      this.deleteStatus = true;
-    },
-    editMember(row) {
-      this.manageType = 1;
-      this.createTitle = "编辑用户";
-      this.createData = row;
-      this.createStatus = true;
-    },
-    createMember() {
-      this.manageType = 0;
-      this.createTitle = "创建用户";
-      this.createData = {
-        avatar: "",
-        role: 2,
-        name: "",
-        account: ""
-      };
-      this.createStatus = true;
-    },
-    delCancel() {
-      this.deleteStatus = false;
-    },
-    async delSure(id) {
+    /* 【删除账户】 */
+    async deleteAccount(id) {
       let params = {
         id: id
       }
-      /* 【删除账户】 */
-      let result =  await adminDelete(params);
+      let result =  await memberDelete(params);
       if (result.status) {
         this.memberData = this.memberData.filter(item => item.id != id);
       }
       toastBox(result.message);
+      this.deleteStatus = false;
+    },
+    roleFilter(val) {
+      switch(val) {
+        case 0:
+          return "管理员"
+        case 1:
+          return "维护者"
+        case 2:
+          return "使用者"
+        default:
+          return ""
+      }
+    },
+    createCancel() {
+      this.createStatus = false;
+    },
+    updateCancel() {
+      this.updateStatus = false;
+    },
+    deleteMember(row) {
+      this.deleteData = row;
+      this.deleteStatus = true;
+    },
+    updateMember(row) {
+      this.updateData = row;
+      this.updateStatus = true;
+    },
+    createMember() {
+      this.createStatus = true;
+    },
+    deleteCancel() {
       this.deleteStatus = false;
     }
   }
@@ -198,6 +216,12 @@ export default {
             justify-content: center;
             display: flex;
           }
+        }
+        > img {
+          width: 0.24rem;
+          height: 0.24rem;
+          border-radius: 0.01rem;
+          background-color: #eeeeee;
         }
       }
     }

@@ -29,7 +29,7 @@ export default {
       this.$emit("delete-cancel");
     },
     onSure() {
-      this.$emit("delete-sure", this.gather.id);
+      this.$emit("delete-btn", this.gather.id);
     }
   }
 }

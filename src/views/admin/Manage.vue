@@ -1,144 +1,84 @@
 <template>
   <div class="manage">
-    <div class="manage-panel">
-      <div class="manage-add">
-        <template v-if="manageStatus">
-          <div>
-            <h3>名称: </h3>
-          </div>
-        </template>
-        <template v-else>
-          <div @click="onCreate">+</div>
-        </template>
+    <template v-if="manageData.length > 0">
+      <div class="manage-table">table</div>
+    </template>
+    <template v-else>
+      <div class="manage-empty">
+        <div @click="createManage">创建模板</div>
       </div>
-      <template v-for="(item, index) in manageData" :key="index">
-        <div class="manage-item">
-          <div class="manage-info">
-            <div class="manage-title">
-              <h3>名称: </h3>
-              <h3>{{ item.title }}</h3>
-            </div>
-            <div class="manage-hand">
-              <div class="manage-left">
-                <div class="manage-sort">排序: {{ item.sort }}</div>
-              </div>
-              <div class="manage-right">
-                <Switch title="显示: " :status="switchStatus" @switch-btn="onSwitch" />
-              </div>
-            </div>
-          </div>
-          <div class="manage-btn">
-            <span @click="onDelete(item)">删除</span>
-            <span>编辑</span>
-          </div>
-        </div>
-      </template>
-    </div>
-    <Delete title="删除目录" article="您确定删除该目录吗？" :status="deleteStatus" :gather="deleteData" @delete-cancel="delCancel" @delete-sure="delSure" />
+    </template>
   </div>
 </template>
 
 <script>
-import Switch from "@/components/Switch.vue"
-import Delete from "@/components/Delete.vue"
-
+import { getItem } from "@/assets/js/appUtils.js"
+import { manageModel, manageCreate, manageUpdate, manageDelete } from "@/assets/js/api/manage.js"
 export default {
   name: "Manage",
-  components: {
-    Switch,
-    Delete
-  },
   data() {
     return {
-      manageData: [
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "商城接口"
-        },
-        {
-          id: 1,
-          sort: 3,
-          title: "福利吧"
-        }
-      ],
-      manageStatus: false,
-      switchStatus: true,
+      manageData: [],
+      createStatus: false,
+      updateStatus: false,
       deleteStatus: false,
-      deleteData: {}
     }
   },
+  created() {
+    this.modelManage();
+    this.createModel();
+    this.updateModel();
+    this.deleteModel();
+  },
   methods: {
-    onCreate() {
-      this.manageStatus = true;
+    /* 【模板管理】 */
+    async modelManage() {
+      let params = {
+        token: getItem("token"),
+        expired: getItem("expired")
+      };
+      let result =  await manageModel(params);
+      console.log(result, "@@ result");
+      this.manageData = result.data;
     },
-    onSwitch() {
-      this.switchStatus = !this.switchStatus;
+    /* 【创建模板】 */
+    async createModel() {
+      let params = {
+        token: getItem("token"),
+        expired: getItem("expired"),
+        title: "title",
+        level: 0,
+        table: "table"
+      };
+      let result =  await manageCreate(params);
+      console.log(result, "@@ manageCreate");
     },
-    onDelete(row) {
-      this.deleteData = row;
-      this.deleteStatus = true;
+    /* 【编辑模板】 */
+    async updateModel() {
+      let params = {
+        token: getItem("token"),
+        expired: getItem("expired"),
+        title: "title",
+        level: 0,
+        table: "table"
+      };
+      let result =  await manageUpdate(params);
+      console.log(result, "@@ manageCreate");
     },
-    delCancel() {
-      this.deleteStatus = false;
+    /* 【删除模板】 */
+    async deleteModel() {
+      let params = {
+        token: getItem("token"),
+        expired: getItem("expired"),
+        title: "title",
+        level: 0,
+        table: "table"
+      };
+      let result =  await manageDelete(params);
+      console.log(result, "@@ manageCreate");
     },
-    delSure(id) {
-      console.log(id, "delSure")
+    createManage() {
+      this.createStatus = true;
     }
   }
 }
@@ -148,83 +88,13 @@ export default {
 .manage {
   width: 100%;
   height: 100%;
-  background-color: #f7f7f7;
   overflow: hidden;
-  .manage-panel {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin: 0.06rem 0.06rem 0 0.06rem;
-    .manage-add {
-      margin: 0.06rem;
-      width: 1.62rem;
-      height: 0.82rem;
-      border-radius: 0.02rem;
-      background-color: #ffffff;
-    }
-    .manage-item {
-      margin: 0.06rem;
-      width: 1.62rem;
-      height: 0.82rem;
-      border-radius: 0.02rem;
-      background-color: #ffffff;
-      .manage-info {
-        .manage-title {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          margin: 0.12rem 0 0 0;
-          > h3 {
-            font-size: 0.1rem;
-            color: #333333;
-            line-height: 0.1rem;
-            font-weight: normal;
-          }
-        }
-        .manage-hand {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          margin: 0.12rem 0 0 0;
-          width: 100%;
-          .manage-left {
-            margin: 0 0 0 0.12rem;
-            // flex: 1;
-            // display: flex;
-            .manage-sort {
-              // margin: 0 0 0 0.12rem;
-              font-size: 0.1rem;
-              color: #333333;
-              line-height: 0.1rem;
-            }
-          }
-          .manage-right {
-            margin: 0 0.12rem 0 0;
-            // flex: 1;
-          }
-        }
-      }
-      .manage-btn {
-        display: flex;
-        flex-direction: row;
-        margin: 0.12rem 0 0 0;
-        width: 100%;
-        height: 0.24rem;
-        border-top: 1px solid #eeeeee;
-        > span {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 50%;
-          height: 0.24rem;
-          font-size: 0.1rem;
-          line-height: 0.1rem;
-          color: #333333;
-          &:nth-child(1) {
-            border-right: 1px solid #eeeeee;
-          }
-        }
-      }
+  .manage-table {
+
+  }
+  .manage-empty {
+    > div {
+
     }
   }
 }

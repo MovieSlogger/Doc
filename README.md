@@ -13,10 +13,10 @@
 ```
 
       |                 |-- Button.vue 按钮组件
-      |                 |-- Create.vue 新增、编辑会员组件
+      |                 |-- Create.vue 新增会员组件
       |                 |-- Delete.vue 删除会员组件
-      |-- components -- |-- Frame.vue  头部组件
-      |                 |-- Table.vue  会员管理组件
+      |-- components -- |-- Update.vue 编辑会员组件
+      |                 |-- Frame.vue  头部组件
  src -|                 |-- Input.vue  input组件
       |                 |-- Select.vue 选择器组件
       |                 |-- Upload.vue 图片上传组件

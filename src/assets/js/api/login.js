@@ -4,7 +4,7 @@ import { axiosFetch } from "./../appUtils.js"
 export function loginAccount(params) {
     return axiosFetch({
       method: "POST",
-      url: "/api/member/login",
+      url: "/api/signin/login",
       params: params
     })
     .then((res) => {
